@@ -176,7 +176,7 @@ func (t *Tracker) track(groupName string, idinfo IDInfo) {
 
 func (t *Tracker) ignore(id ID) {
 	// only ignore ID if we didn't set recheck to true
-	if t.alwaysRecheck == false {
+	if !t.alwaysRecheck {
 		t.tracked[id] = nil
 	}
 }
@@ -307,7 +307,7 @@ func (t *Tracker) update(procs Iter) ([]IDInfo, CollectErrors, error) {
 
 	err := procs.Close()
 	if err != nil {
-		return nil, colErrs, fmt.Errorf("Error reading procs: %v", err)
+		return nil, colErrs, fmt.Errorf("error reading procs: %v", err)
 	}
 
 	// Rather than allocating a new map each time to detect procs that have

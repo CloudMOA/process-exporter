@@ -3,8 +3,8 @@ package config
 import (
 	"bytes"
 	"fmt"
-	"io/ioutil"
 	"log"
+	"os"
 	"path/filepath"
 	"regexp"
 	"strings"
@@ -270,7 +270,7 @@ func (r MatcherRules) ToConfig() (*Config, error) {
 
 // ReadRecipesFile opens the named file and extracts recipes from it.
 func ReadFile(cfgpath string, debug bool) (*Config, error) {
-	content, err := ioutil.ReadFile(cfgpath)
+	content, err := os.ReadFile(cfgpath)
 	if err != nil {
 		return nil, fmt.Errorf("error reading config file %q: %v", cfgpath, err)
 	}

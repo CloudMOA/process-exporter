@@ -2,7 +2,7 @@ pkgs          = $(shell go list ./...)
 
 PREFIX                  ?= $(shell pwd)
 BIN_DIR                 ?= $(shell pwd)
-DOCKER_IMAGE_NAME       ?= ncabatoff/process-exporter
+DOCKER_IMAGE_NAME       ?= datasaker/process-exporter
 
 BRANCH      ?= $(shell git rev-parse --abbrev-ref HEAD)
 BUILDDATE   ?= $(shell date --iso-8601=seconds)
@@ -17,7 +17,7 @@ VERSION_LDFLAGS := \
   -X github.com/prometheus/common/version.Revision=$(REVISION) \
   -X main.version=$(TAG_VERSION)
 
-SMOKE_TEST = -config.path packaging/conf/all.yaml -once-to-stdout-delay 1s |grep -q 'namedprocess_namegroup_memory_bytes{groupname="process-exporte",memtype="virtual"}'
+SMOKE_TEST = --config.path packaging/conf/all.yaml --once-to-stdout-delay 1s |grep -q 'namedprocess_namegroup_memory_bytes{groupname="process-exporte",memtype="virtual"}'
 
 all: format vet test build smoke
 
