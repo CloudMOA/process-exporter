@@ -4,6 +4,10 @@ FROM --platform=$BUILDPLATFORM golang:1.21 AS build
 ARG TARGETARCH
 ARG BUILDPLATFORM
 WORKDIR /go/src/github.com/ncabatoff/process-exporter
+
+ADD go.mod go.sum /go/src/github.com/ncabatoff/process-exporter/
+RUN go mod download
+
 ADD . .
 
 # Build the process-exporter command inside the container.
