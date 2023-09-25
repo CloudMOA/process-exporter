@@ -10,139 +10,139 @@ import (
 
 var (
 	numprocsDesc = prometheus.NewDesc(
-		"namedprocess_namegroup_num_procs",
+		"process_num_procs",
 		"number of processes in this group",
 		[]string{"groupname"},
 		nil)
 
 	cpuSecsDesc = prometheus.NewDesc(
-		"namedprocess_namegroup_cpu_seconds_total",
+		"process_cpu_seconds_total",
 		"Cpu user usage in seconds",
 		[]string{"groupname", "mode"},
 		nil)
 
 	readBytesDesc = prometheus.NewDesc(
-		"namedprocess_namegroup_read_bytes_total",
+		"process_read_bytes_total",
 		"number of bytes read by this group",
 		[]string{"groupname"},
 		nil)
 
 	writeBytesDesc = prometheus.NewDesc(
-		"namedprocess_namegroup_write_bytes_total",
+		"process_write_bytes_total",
 		"number of bytes written by this group",
 		[]string{"groupname"},
 		nil)
 
 	majorPageFaultsDesc = prometheus.NewDesc(
-		"namedprocess_namegroup_major_page_faults_total",
+		"process_major_page_faults_total",
 		"Major page faults",
 		[]string{"groupname"},
 		nil)
 
 	minorPageFaultsDesc = prometheus.NewDesc(
-		"namedprocess_namegroup_minor_page_faults_total",
+		"process_minor_page_faults_total",
 		"Minor page faults",
 		[]string{"groupname"},
 		nil)
 
 	contextSwitchesDesc = prometheus.NewDesc(
-		"namedprocess_namegroup_context_switches_total",
+		"process_context_switches_total",
 		"Context switches",
 		[]string{"groupname", "ctxswitchtype"},
 		nil)
 
 	membytesDesc = prometheus.NewDesc(
-		"namedprocess_namegroup_memory_bytes",
+		"process_memory_bytes",
 		"number of bytes of memory in use",
 		[]string{"groupname", "memtype"},
 		nil)
 
 	openFDsDesc = prometheus.NewDesc(
-		"namedprocess_namegroup_open_filedesc",
+		"process_open_filedesc",
 		"number of open file descriptors for this group",
 		[]string{"groupname"},
 		nil)
 
 	worstFDRatioDesc = prometheus.NewDesc(
-		"namedprocess_namegroup_worst_fd_ratio",
+		"process_worst_fd_ratio",
 		"the worst (closest to 1) ratio between open fds and max fds among all procs in this group",
 		[]string{"groupname"},
 		nil)
 
 	startTimeDesc = prometheus.NewDesc(
-		"namedprocess_namegroup_oldest_start_time_seconds",
+		"process_oldest_start_time_seconds",
 		"start time in seconds since 1970/01/01 of oldest process in group",
 		[]string{"groupname"},
 		nil)
 
 	numThreadsDesc = prometheus.NewDesc(
-		"namedprocess_namegroup_num_threads",
+		"process_num_threads",
 		"Number of threads",
 		[]string{"groupname"},
 		nil)
 
 	statesDesc = prometheus.NewDesc(
-		"namedprocess_namegroup_states",
+		"process_states",
 		"Number of processes in states Running, Sleeping, Waiting, Zombie, or Other",
 		[]string{"groupname", "state"},
 		nil)
 
 	scrapeErrorsDesc = prometheus.NewDesc(
-		"namedprocess_scrape_errors",
+		"process_scrape_errors",
 		"general scrape errors: no proc metrics collected during a cycle",
 		nil,
 		nil)
 
 	scrapeProcReadErrorsDesc = prometheus.NewDesc(
-		"namedprocess_scrape_procread_errors",
+		"process_scrape_procread_errors",
 		"incremented each time a proc's metrics collection fails",
 		nil,
 		nil)
 
 	scrapePartialErrorsDesc = prometheus.NewDesc(
-		"namedprocess_scrape_partial_errors",
+		"process_scrape_partial_errors",
 		"incremented each time a tracked proc's metrics collection fails partially, e.g. unreadable I/O stats",
 		nil,
 		nil)
 
 	threadWchanDesc = prometheus.NewDesc(
-		"namedprocess_namegroup_threads_wchan",
+		"process_threads_wchan",
 		"Number of threads in this group waiting on each wchan",
 		[]string{"groupname", "wchan"},
 		nil)
 
 	threadCountDesc = prometheus.NewDesc(
-		"namedprocess_namegroup_thread_count",
+		"process_thread_count",
 		"Number of threads in this group with same threadname",
 		[]string{"groupname", "threadname"},
 		nil)
 
 	threadCpuSecsDesc = prometheus.NewDesc(
-		"namedprocess_namegroup_thread_cpu_seconds_total",
+		"process_thread_cpu_seconds_total",
 		"Cpu user/system usage in seconds",
 		[]string{"groupname", "threadname", "mode"},
 		nil)
 
 	threadIoBytesDesc = prometheus.NewDesc(
-		"namedprocess_namegroup_thread_io_bytes_total",
+		"process_thread_io_bytes_total",
 		"number of bytes read/written by these threads",
 		[]string{"groupname", "threadname", "iomode"},
 		nil)
 
 	threadMajorPageFaultsDesc = prometheus.NewDesc(
-		"namedprocess_namegroup_thread_major_page_faults_total",
+		"process_thread_major_page_faults_total",
 		"Major page faults for these threads",
 		[]string{"groupname", "threadname"},
 		nil)
 
 	threadMinorPageFaultsDesc = prometheus.NewDesc(
-		"namedprocess_namegroup_thread_minor_page_faults_total",
+		"process_thread_minor_page_faults_total",
 		"Minor page faults for these threads",
 		[]string{"groupname", "threadname"},
 		nil)
 
 	threadContextSwitchesDesc = prometheus.NewDesc(
-		"namedprocess_namegroup_thread_context_switches_total",
+		"process_thread_context_switches_total",
 		"Context switches for these threads",
 		[]string{"groupname", "threadname", "ctxswitchtype"},
 		nil)
