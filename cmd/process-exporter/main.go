@@ -11,6 +11,7 @@ import (
 	"strings"
 	"time"
 
+	"github.com/alecthomas/kingpin/v2"
 	"github.com/ncabatoff/fakescraper"
 	common "github.com/ncabatoff/process-exporter"
 	"github.com/ncabatoff/process-exporter/collector"
@@ -20,6 +21,7 @@ import (
 	"github.com/prometheus/common/promlog"
 	promVersion "github.com/prometheus/common/version"
 	"github.com/prometheus/exporter-toolkit/web"
+	"github.com/prometheus/exporter-toolkit/web/kingpinflag"
 )
 
 // Version is set at build time use ldflags.
@@ -146,36 +148,20 @@ func init() {
 
 func main() {
 	var (
-		listenAddress = flag.String("web.listen-address", ":9256",
-			"Address on which to expose metrics and web interface.")
-		metricsPath = flag.String("web.telemetry-path", "/metrics",
-			"Path under which to expose metrics.")
-		onceToStdoutDelay = flag.Duration("once-to-stdout-delay", 0,
-			"Don't bind, just wait this much time, print the metrics once to stdout, and exit")
-		procNames = flag.String("procnames", "",
-			"comma-separated list of process names to monitor")
-		procfsPath = flag.String("procfs", "/proc",
-			"path to read proc data from")
-		nameMapping = flag.String("namemapping", "",
-			"comma-separated list, alternating process name and capturing regex to apply to cmdline")
-		children = flag.Bool("children", true,
-			"if a proc is tracked, track with it any children that aren't part of their own group")
-		threads = flag.Bool("threads", true,
-			"report on per-threadname metrics as well")
-		smaps = flag.Bool("gather-smaps", true,
-			"gather metrics from smaps file, which contains proportional resident memory size")
-		man = flag.Bool("man", false,
-			"print manual")
-		configPath = flag.String("config.path", "",
-			"path to YAML config file")
-		tlsConfigFile = flag.String("web.config.file", "",
-			"path to YAML web config file")
-		recheck = flag.Bool("recheck", false,
-			"recheck process names on each scrape")
-		debug = flag.Bool("debug", false,
-			"log debugging information to stdout")
-		showVersion = flag.Bool("version", false,
-			"print version information and exit")
+		webConfig         = kingpinflag.AddFlags(kingpin.CommandLine, ":9256")
+		metricsPath       = kingpin.Flag("web.telemetry-path", "Path under which to expose metrics.").Default("/metrics").String()
+		onceToStdoutDelay = kingpin.Flag("once-to-stdout-delay", "Don't bind, just wait this much time, print the metrics once to stdout, and exit").Default("0").Duration()
+		procNames         = kingpin.Flag("procnames", "comma-separated list of process names to monitor").Default("").String()
+		procfsPath        = kingpin.Flag("procfs", "path to read proc data from").Default("/proc").String()
+		nameMapping       = kingpin.Flag("namemapping", "comma-separated list, alternating process name and capturing regex to apply to cmdline").Default("").String()
+		children          = kingpin.Flag("children", "if a proc is tracked, track with it any children that aren't part of their own group").Default("true").Bool()
+		threads           = kingpin.Flag("threads", "report on per-threadname metrics as well").Default("true").Bool()
+		smaps             = kingpin.Flag("gather-smaps", "gather metrics from smaps file, which contains proportional resident memory size").Default("true").Bool()
+		man               = kingpin.Flag("man", "path to YAML config file").Default("false").Bool()
+		configPath        = kingpin.Flag("config.path", "path to YAML config file").Default("").String()
+		recheck           = kingpin.Flag("recheck", "recheck process names on each scrape").Default("false").Bool()
+		debug             = kingpin.Flag("debug", "log debugging information to stdout").Default("false").Bool()
+		showVersion       = kingpin.Flag("version", "print version information and exit").Default("false").Bool()
 	)
 	flag.Parse()
 
@@ -270,8 +256,8 @@ func main() {
 			</body>
 			</html>`))
 	})
-	server := &http.Server{Addr: *listenAddress}
-	if err := web.ListenAndServe(server, *tlsConfigFile, logger); err != nil {
+	server := &http.Server{}
+	if err := web.ListenAndServe(server, webConfig, logger); err != nil {
 		log.Fatalf("Failed to start the server: %v", err)
 		os.Exit(1)
 	}

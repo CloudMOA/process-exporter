@@ -1,10 +1,10 @@
 package main
 
 import (
+	"crypto/rand"
 	"flag"
 	"fmt"
-	"io/ioutil"
-	"math/rand"
+	"os"
 	"runtime"
 	"syscall"
 	"unsafe"
@@ -93,7 +93,7 @@ func diskio(sync bool, writesize int) {
 		panic("unable to get rands: " + err.Error())
 	}
 
-	f, err := ioutil.TempFile("", "loadgen")
+	f, err := os.CreateTemp("", "loadgen")
 	if err != nil {
 		panic("unable to create tempfile: " + err.Error())
 	}

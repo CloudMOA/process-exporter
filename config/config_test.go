@@ -2,9 +2,10 @@ package config
 
 import (
 	// "github.com/kylelemons/godebug/pretty"
+	"time"
+
 	common "github.com/ncabatoff/process-exporter"
 	. "gopkg.in/check.v1"
-	"time"
 )
 
 func (s MySuite) TestConfigBasic(c *C) {
