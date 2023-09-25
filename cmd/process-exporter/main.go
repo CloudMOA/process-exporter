@@ -1,7 +1,6 @@
 package main
 
 import (
-	"flag"
 	"fmt"
 	"log"
 	"net/http"
@@ -142,7 +141,6 @@ func (nmr *nameMapperRegex) MatchAndName(nacl common.ProcAttributes) (bool, stri
 }
 
 func init() {
-	promVersion.Version = version
 	prometheus.MustRegister(promVersion.NewCollector("process_exporter"))
 }
 
@@ -161,17 +159,19 @@ func main() {
 		configPath        = kingpin.Flag("config.path", "path to YAML config file").Default("").String()
 		recheck           = kingpin.Flag("recheck", "recheck process names on each scrape").Default("false").Bool()
 		debug             = kingpin.Flag("debug", "log debugging information to stdout").Default("false").Bool()
-		showVersion       = kingpin.Flag("version", "print version information and exit").Default("false").Bool()
+		// showVersion       = kingpin.Flag("version", "print version information and exit").Default("false").Bool()
 	)
-	flag.Parse()
+	kingpin.Version(promVersion.Print(version))
+	kingpin.CommandLine.HelpFlag.Short('h')
+	kingpin.Parse()
 
 	promlogConfig := &promlog.Config{}
 	logger := promlog.New(promlogConfig)
 
-	if *showVersion {
-		fmt.Printf("%s\n", promVersion.Print("process-exporter"))
-		os.Exit(0)
-	}
+	// if *showVersion {
+	// 	fmt.Printf("%s\n", promVersion.Print("process-exporter"))
+	// 	os.Exit(0)
+	// }
 
 	if *man {
 		printManual()
