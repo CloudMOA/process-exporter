@@ -2,7 +2,7 @@ pkgs          = $(shell go list ./...)
 
 PREFIX                  ?= $(shell pwd)
 BIN_DIR                 ?= $(shell pwd)
-DOCKER_IMAGE_NAME       ?= ncabatoff/process-exporter
+DOCKER_IMAGE_NAME       ?= datasaker/process-exporter
 
 BRANCH      ?= $(shell git rev-parse --abbrev-ref HEAD)
 BUILDDATE   ?= $(shell date --iso-8601=seconds)

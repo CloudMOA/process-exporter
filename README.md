@@ -10,3 +10,4 @@ original readme : [readme.md](README_origin.md)
 - flag -> kingpin
 - replcaed some deprecated functions
 - flag syntax changed (ex: -config.file -> --config.file)
+- changed image name (ncabatoff/process-exporter -> datasaker/process-exporter)
